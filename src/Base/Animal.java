@@ -1,0 +1,56 @@
+package Base;
+
+import java.io.Serializable;
+
+import Utilidades.Utilidades;
+
+public abstract class Animal implements Serializable {
+
+	// AUTO-GENERATE
+	private static final long serialVersionUID = 1L;
+	
+	private static int contador = 0;
+
+	private String nombre = "";
+	private String codigo = "";
+
+	protected Animal(String nombre) {
+
+		if (nombre == null || nombre.equals("")) {
+			this.nombre = "Sin Nombre";
+		} else {
+			this.nombre = nombre;
+		}
+
+		codigo = Utilidades.codigo(++contador);
+
+	}
+
+	@Override
+	public String toString() {
+		return "El codigo del animal es " + codigo + " y de nombre " + nombre;
+	}
+
+	public String getNombre() {
+		return nombre;
+	}
+
+	public void setNombre(String nombre) {
+		if (!nombre.equals("") && nombre != null) {
+			this.nombre = nombre;
+		}
+	}
+
+	public String getCodigo() {
+		return codigo;
+	}
+
+	public static int getContador() {
+		return contador;
+	}
+
+	public static void setContador(int contador) {
+		Animal.contador = contador;
+	}
+
+}
