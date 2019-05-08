@@ -31,6 +31,8 @@ public class Gato extends Animal {
 		return edad;
 	}
 
+	// Aseguramos que la edad solo se pueda modificar, si es un numero mayor al
+	// pasado
 	public void setEdad(int edad) {
 		if (edad == this.edad + 1) {
 			this.edad = edad;

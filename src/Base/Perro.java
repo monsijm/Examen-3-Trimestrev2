@@ -7,7 +7,7 @@ public class Perro extends Animal {
 
 	private int longitud = 0;
 
-	public Perro(String nombre,int longitud) {
+	public Perro(String nombre, int longitud) {
 		super(nombre);
 
 		if (longitud > 0 && longitud < 1000) {
@@ -32,6 +32,8 @@ public class Perro extends Animal {
 		return longitud;
 	}
 
+	// Aseguramos que la longitud cumpla unas condiciones. Que el tam sea mayor que
+	// ya tiene y no sea demasiado grande
 	public void setLongitud(int longitud) {
 		if (longitud > this.longitud && longitud < 1000) {
 			this.longitud = longitud;
