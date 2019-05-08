@@ -8,6 +8,7 @@ import Coleccion.Tienda;
 import EntradaTeclado.LeerTeclado;
 import Exceptions.TiendaExceptions;
 import Interfaz.ITienda;
+import Utilidades.Utilidades;
 
 public class AplicacionTienda {
 
@@ -46,7 +47,7 @@ public class AplicacionTienda {
 
 				case 2:
 
-					temp = LeerTeclado.leerString("Escriba el codigo del animal que desea eliminar: ");
+					temp = Utilidades.codigo(LeerTeclado.leerEntero("Escriba el codigo del animal que desea eliminar: "));
 					if (tienda.eliminarPorCodigo(temp)) {
 						System.out.println("El animal se ha eliminado correctamente");
 					} else {

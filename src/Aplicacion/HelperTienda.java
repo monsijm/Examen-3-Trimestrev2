@@ -1,6 +1,7 @@
 package Aplicacion;
 
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -13,6 +14,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Scanner;
 
 import Base.Animal;
 import Base.Gato;
@@ -95,7 +97,7 @@ public class HelperTienda {
 			Animal aux = (Animal) ite.next();
 			if (aux instanceof Perro && (((Perro) aux).getLongitud() > longitud)) {
 				temp.add(aux);
-				tienda.eliminarPorCodigo(aux.getCodigo());
+				ite.remove();
 			}
 		}
 
@@ -144,7 +146,7 @@ public class HelperTienda {
 			Animal aux = (Animal) ite.next();
 			if (aux instanceof Gato && (((Gato) aux).getEdad() > edad)) {
 				temp.add(aux);
-				tienda.eliminarPorCodigo(aux.getCodigo());
+				ite.remove();
 			}
 		}
 
@@ -202,19 +204,22 @@ public class HelperTienda {
 	 * @return
 	 * @throws TiendaExceptions
 	 */
-	@SuppressWarnings("unchecked")
 	public static List<String> cargarErrores(String nombreTienda) throws TiendaExceptions {
 		List<String> temp = null;
 
-		Path path = Paths.get(nombreTienda + "Errores.txt");
+		File fichero = new File(nombreTienda + "Errores.txt");
 
-		if (Files.exists(path) && path.toFile() != null && path.toFile().isFile()) {
+		if (fichero != null && fichero.exists() && fichero.isFile()) {
 			try {
-				InputStream flujoDatos = new ObjectInputStream(new FileInputStream(path.toFile()));
-
-				temp = (List<String>) ((ObjectInputStream) flujoDatos).readObject();
-
-				flujoDatos.close();
+				Scanner sc = new Scanner(fichero);
+				temp = new ArrayList<>();
+				
+				while(sc.hasNext()) {
+					temp.add(sc.next());
+				}
+				
+				sc.close();
+				
 			} catch (Exception e) {
 				throw new TiendaExceptions("Fallo carga Fichero Errores");
 			}
@@ -238,7 +243,7 @@ public class HelperTienda {
 		try {
 
 			if (!Files.exists(path)) { // Creamos el fichero si no existe
-				BufferedWriter bw = new BufferedWriter(new PrintWriter(tienda.getNombreTienda() + ".txt"));
+				BufferedWriter bw = new BufferedWriter(new PrintWriter(path.toString()));
 				bw.close();
 			}
 
@@ -266,15 +271,18 @@ public class HelperTienda {
 		try {
 
 			if (!Files.exists(path)) { // Creamos el fichero si no existe
-				BufferedWriter bw = new BufferedWriter(new PrintWriter(nombre + ".txt"));
+				BufferedWriter bw = new BufferedWriter(new PrintWriter(path.toString()));
 				bw.close();
 			}
 
-			ObjectOutputStream flujoSalida = new ObjectOutputStream(new FileOutputStream(path.toFile()));
-
-			flujoSalida.writeObject(errores); // Guardamos los Errores de la Tienda
-
-			flujoSalida.close();
+			PrintWriter pw = new PrintWriter(path.toFile());
+			Iterator<String> ite = errores.iterator();
+			
+			while (ite.hasNext()) {
+				pw.append(ite.next() + "\n");
+			}
+			
+			pw.close();
 
 		} catch (Exception e) {
 			throw new TiendaExceptions("Fallo Al Guardar Fichero de Errores");
