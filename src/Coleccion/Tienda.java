@@ -17,7 +17,7 @@ public class Tienda implements ITienda {
 
 	// Nombre por defecto para la Tienda si no se introduce ninguno, o se le pasa un
 	// String vacio
-	private final static String DEFAULT_SHOP_NAME = "Prueba";
+	private final String DEFAULT_SHOP_NAME = "Prueba";
 
 	private Map<String, Animal> tienda = null;
 	private String nombreTienda = "";
